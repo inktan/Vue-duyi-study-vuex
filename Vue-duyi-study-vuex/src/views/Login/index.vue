@@ -7,28 +7,22 @@ const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
-const loginId = ref('');
-const loginPwd = ref('');
-// const loading = ref(false);
+const loginId = ref('')
+const loginPwd = ref('')
+// 创建计算属性来简化对 Vuex 模块状态的访问
+const loading = computed(() => store.state.loginUser.loading);
+const user = computed(() => store.state.loginUser.user);
+const status = computed(() => store.getters['loginUser/status']);
 
-// 访问 state
-// const loading = computed(() => store.state.loginUser.loading);
+const handleSubmit = async function () {
 
-// 访问 getters
-// const doubleCount = computed(() => store.getters.doubleCount);
-
-// 调用 actions
-// const increment = () => {
-//   store.dispatch('increment');
-// };
-
-const handleSubmit = function () {
-  console.log("登录", loginId.value, loginPwd.value)
-  // console.log(loading.value)
-  // increment()
-  console.log(store.state.loginUser.loading)
-  store.commit('loginUser/setLoading', true)
-  console.log(store.state.loginUser.loading)
+  // 从vuex module namespace中与数据的交互模式
+  const resp = await store.dispatch('loginUser/login', { loginId: loginId.value, loginPwd: loginPwd.value })
+  if (resp) {
+    router.push('/');
+  } else {
+    alert('账号 或者 密码错误')
+  }
 
 }
 

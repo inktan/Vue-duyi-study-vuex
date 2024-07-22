@@ -21,23 +21,22 @@ export default {
         async login(ctx, payload) {
             ctx.commit("setLoading", true);
             const resp = await userApi.login(payload.loginId, payload.loginPwd);
+            console.log(resp)
             ctx.commit("setUser", resp);
             ctx.commit("setLoading", false);
-
+            return resp;
         },
         async whoAmI(ctx) {
             ctx.commit("setLoading", true);
             const resp = await userApi.whoAmI();
             ctx.commit("setUser", resp);
             ctx.commit("setLoading", false);
-
         },
         async loginOut(ctx,) {
             ctx.commit("setLoading", true);
             await userApi.loginOut();
             ctx.commit("setUser", null);
             ctx.commit("setLoading", null);
-
         }
     },
     getters: {
@@ -45,6 +44,14 @@ export default {
         // doubleCount(state) {
         //     return state.count * 2;
         // }
-
+        status(state) {
+            if (state.loading) {
+                return 'loading';
+            } else if (state.user) {
+                return "login";
+            } else {
+                return 'unlogin';
+            }
+        }
     }
 }

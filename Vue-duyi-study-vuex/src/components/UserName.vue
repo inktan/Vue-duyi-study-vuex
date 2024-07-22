@@ -7,15 +7,24 @@ const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
+const status = computed(() => store.getters['loginUser/status']);
+const user = computed(() => store.state.loginUser.user);
+
+const handleLoginOut = async function () {
+    const resp = await store.dispatch('loginUser/loginOut')
+    router.push('/login');
+
+}
 </script>
 
 <template>
     <div class="user-name">
-        <span>loading</span>
-        <span>当前登录用户</span>
-        <a href="" class="ml-5">退出</a>
-        <RouterLink to="/login">Login</RouterLink>
-
+        <span v-if="status === 'loading'">loading</span>
+        <template v-else-if="status === 'login'">
+            <RouterLink to="/user">{{ user.name }}</RouterLink>
+            <a href="" @:click.prevent="handleLoginOut" class="ml-5">退出</a>
+        </template>
+        <RouterLink v-else to="/login">Login</RouterLink>
     </div>
 </template>
 
