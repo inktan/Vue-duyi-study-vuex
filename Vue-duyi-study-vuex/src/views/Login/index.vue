@@ -19,7 +19,8 @@ const handleSubmit = async function () {
   // 从vuex module namespace中与数据的交互模式
   const resp = await store.dispatch('loginUser/login', { loginId: loginId.value, loginPwd: loginPwd.value })
   if (resp) {
-    router.push('/');
+    const path = route.query.returnurl || '/'
+    router.push(path);
   } else {
     alert('账号 或者 密码错误')
   }

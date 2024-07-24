@@ -21,7 +21,7 @@ export default {
         async login(ctx, payload) {
             ctx.commit("setLoading", true);
             const resp = await userApi.login(payload.loginId, payload.loginPwd);
-            console.log(resp)
+            // console.log(resp)
             ctx.commit("setUser", resp);
             ctx.commit("setLoading", false);
             return resp;

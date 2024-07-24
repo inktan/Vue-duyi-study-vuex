@@ -13,7 +13,6 @@ const user = computed(() => store.state.loginUser.user);
 const handleLoginOut = async function () {
     const resp = await store.dispatch('loginUser/loginOut')
     router.push('/login');
-
 }
 </script>
 
